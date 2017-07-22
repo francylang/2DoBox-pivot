@@ -24,22 +24,6 @@ $(document).on('click', ".delete-btn", function() {
   $(this).closest('.idea-card').remove();
 });
 
-$(document).on('mouseenter', '#upvote-button', function() {
-  $(this).attr('src', 'icons/upvote-hover.svg');
-});
-
-$(document).on('mouseleave', '#upvote-button', function() {
-  $(this).attr('src', 'icons/upvote.svg');
-});
-
-$(document).on('mouseenter', '#downvote-button', function() {
-  $(this).attr('src', 'icons/downvote-hover.svg');
-});
-
-$(document).on('mouseleave', '#downvote-button', function() {
-  $(this).attr('src', 'icons/downvote.svg');
-});
-
 $(".idea-stream").on('click', "#upvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'swill') {
@@ -124,12 +108,11 @@ function prependCard(idea) {
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
         <div class="delete-btn" id="delete"></div>
-
       </div>
       <p contenteditable=true>${idea.body}</p>
-      <div class="card-quality-flex quality-spacing">
-        <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
-        <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
+        <div class="card-quality-flex quality-spacing">
+        <div class="upvote-btn" id="upvote"></div>
+        <div class="downvote-btn" id="downvote"></div>
         <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
       </div>
     </div>`

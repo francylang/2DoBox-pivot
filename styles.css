@@ -159,11 +159,43 @@ p {
   width: 25px;
 }
 
-#upvote-button,
+
+.delete-btn{
+ height: 1.5em;
+ width: 1.5em;
+ float: right;
+ display: inline-block;
+ background-image: url(icons/delete.svg);
+}
+#delete:hover {
+  background-image: url(icons/delete-hover.svg);
+}
+
+#upvote {
+    height: 1.5em;
+    width: 1.5em;
+    display: inline-block;
+    background-image: url(icons/upvote.svg)
+}
+#upvote:hover {
+  background-image: url(icons/upvote-hover.svg)
+}
+#downvote {
+  margin-left: .5em;
+  height: 1.5em;
+  width: 1.5em;
+  display: inline-block;
+  background-image: url(icons/downvote.svg)
+}
+#downvote:hover {
+  background-image: url(icons/downvote-hover.svg)
+}
+
+/*#upvote-button,
 #downvote-button {
   margin-bottom: 20px;
   margin-right: 20px;
-}
+}*/
 
 @media (max-width: 900px) {
   .idea-stage {

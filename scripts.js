@@ -20,16 +20,8 @@ $(".idea-stream").on('click', ".delete-button", function() {
   $(this).closest('.idea-card').remove();
 });
 
-$(document).on('click', ".delete-button", function() {
+$(document).on('click', ".delete-btn", function() {
   $(this).closest('.idea-card').remove();
-});
-
-$(document).on('mouseenter', '.delete-button', function() {
-  $(this).attr('src', 'icons/delete-hover.svg');
-});
-
-$(document).on('mouseleave', '.delete-button', function() {
-  $(this).attr('src', 'icons/delete.svg');
 });
 
 $(document).on('mouseenter', '#upvote-button', function() {
@@ -131,7 +123,8 @@ function prependCard(idea) {
     `<div class="idea-card" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
-        <img src="icons/delete.svg" class="card-buttons delete-button" />
+        <div class="delete-btn" id="delete"></div>
+
       </div>
       <p contenteditable=true>${idea.body}</p>
       <div class="card-quality-flex quality-spacing">

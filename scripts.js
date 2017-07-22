@@ -20,26 +20,9 @@ $(".idea-stream").on('click', ".delete-button", function() {
   $(this).closest('.idea-card').remove();
 });
 
-$(document).on('click', ".delete-button", function() {
+$(document).on('click', ".delete-btn", function() {
   $(this).closest('.idea-card').remove();
 });
-
-//
-// $(document).on('mouseenter', '#upvote-button', function() {
-//   $(this).attr('src', 'icons/upvote-hover.svg');
-// });
-//
-// $(document).on('mouseleave', '#upvote-button', function() {
-//   $(this).attr('src', 'icons/upvote.svg');
-// });
-//
-// $(document).on('mouseenter', '#downvote-button', function() {
-//   $(this).attr('src', 'icons/downvote-hover.svg');
-// });
-//
-// $(document).on('mouseleave', '#downvote-button', function() {
-//   $(this).attr('src', 'icons/downvote.svg');
-// });
 
 $(".idea-stream").on('click', "#upvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
@@ -127,9 +110,9 @@ function prependCard(idea) {
         <div class="delete-btn" id="delete"></div>
       </div>
       <p contenteditable=true>${idea.body}</p>
-      <div class="card-quality-flex quality-spacing">
-      <div class="upvote-btn" id="upvote"></div>
-      <div class="downvote-btn" id="downvote"></div>
+        <div class="card-quality-flex quality-spacing">
+        <div class="upvote-btn" id="upvote"></div>
+        <div class="downvote-btn" id="downvote"></div>
         <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
       </div>
     </div>`

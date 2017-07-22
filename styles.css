@@ -11,12 +11,9 @@ body {
   width: 100%;
 }
 
-.container {
+.top-container {
   margin: auto;
   max-width: 100%;
-}
-
-.blue-box {
   background-color: #E5F3F2;
   height: 255px;
   position: sticky;
@@ -32,7 +29,7 @@ h1 {
   text-align: center;
 }
 
-.idea-log {
+.idea-stage {
   margin: auto;
   width: 50%;
 }
@@ -104,7 +101,7 @@ form {
   margin: 25px 0;
 }
 
-.white-box {
+.bottom-container {
   margin: 0;
   width: 100%;
 }
@@ -169,13 +166,13 @@ p {
 }
 
 @media (max-width: 900px) {
-  .idea-log {
+  .idea-stage {
     width: 80%;
   }
 }
 
 @media (max-width: 750px) {
-  .idea-log {
+  .idea-stage {
     width: 90%;
   }
 }

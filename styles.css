@@ -74,6 +74,7 @@ form {
   padding-left: 5px;
 }
 
+
 #save-button {
   background-color: #00A79D;
   border-style: none;
@@ -164,6 +165,30 @@ p {
   margin-bottom: 20px;
   margin-right: 20px;
 }
+
+
+
+.delete-btn{
+  height: 1.5em;
+  width: 1.5em;
+  float: right;
+  display: inline-block;
+  background-image: url(icons/delete.svg)
+}
+
+#delete,
+{
+  height: 1.5em;
+  width: 1.5em;
+}
+#delete:hover {
+  background-image: url(icons/delete-hover.svg);
+}
+
+
+
+
+
 
 @media (max-width: 900px) {
   .idea-stage {

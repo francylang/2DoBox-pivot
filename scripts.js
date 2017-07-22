@@ -4,41 +4,54 @@ $(document).ready(function() {
   getIdeaFromStorage();
 });
 
-$("#idea-body, #idea-title").keyup(function() {
+
+
+
+$("#idea-body, #idea-title").on('keyup', enableSave);
+$("#save-button").on('click', disableSave)
+$(".idea-stream").on('click', ".delete-button", removeCard);
+$(document).on('click', ".delete-btn", deleteCard);
+$(".idea-stream").on('click', ".upvote-btn", upvoteRating);
+$(".idea-stream").on('click', ".downvote-btn", downVoteRating);
+$('.idea-stream').on('keyup', 'h2', editTitle);
+$('.idea-stream').on('keyup', 'p', editBody)
+
+
+function enableSave() {
   if (($("#idea-title").val() !== "") || ($("#idea-body").val() !== "")) {
     $("#save-button").removeAttr("disabled");
   }
-});
+};
 
-$("#save-button").on('click', function(event) {
+function disableSave() {
   event.preventDefault();
   evalInputs();
   $("#save-button").attr("disabled", "disabled");
-});
+};
 
-$(".idea-stream").on('click', ".delete-button", function() {
+function removeCard() {
   $(this).closest('.idea-card').remove();
-});
+};
 
-$(document).on('click', ".delete-btn", function() {
+function deleteCard() {
   $(this).closest('.idea-card').remove();
-});
+};
 
-$(".idea-stream").on('click', "#upvote-button", function() {
+function upvoteRating() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'swill') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
   } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
   }
-});
+};
 
-$(".idea-stream").on('click', "#downvote-button", function() {
+function downVoteRating() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'genius') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
   } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
   }
-});
+};
 
 function FreshIdea(title, body, status) {
   this.title = title;
@@ -70,9 +83,9 @@ function getIdeaFromStorage() {
   } else {
     alert('You do not have any of your shit in here');
   }
-}
+};
 
-$('.idea-stream').on('keyup', 'h2', function(event) {
+function editTitle(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     this.blur();
@@ -85,9 +98,9 @@ $('.idea-stream').on('keyup', 'h2', function(event) {
     }
   });
   sendIdeaToStorage();
-});
+};
 
-$('.idea-stream').on('keyup', 'p', function(event) {
+function editBody(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     this.blur();
@@ -100,7 +113,7 @@ $('.idea-stream').on('keyup', 'p', function(event) {
     }
   });
   sendIdeaToStorage();
-});
+};
 
 function prependCard(idea) {
   $('.idea-stream').prepend(

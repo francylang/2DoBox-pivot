@@ -4,9 +4,6 @@ $(document).ready(function() {
   getIdeaFromStorage();
 });
 
-
-
-
 $("#idea-body, #idea-title").on('keyup', enableSave);
 $("#save-button").on('click', disableSave)
 $(".idea-stream").on('click', ".delete-button", removeCard);
@@ -58,7 +55,7 @@ function FreshIdea(title, body, status) {
   this.body = body;
   this.status = "swill";
   this.id = Date.now();
-}
+};
 
 function addCard() {
   var ideaTitle = $("#idea-title").val();
@@ -72,7 +69,7 @@ function addCard() {
 
 function sendIdeaToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
-}
+};
 
 function getIdeaFromStorage() {
   if (localStorage.getItem('ideaArray')) {
@@ -99,6 +96,7 @@ function editTitle(event) {
   });
   sendIdeaToStorage();
 };
+
 
 function editBody(event) {
   if (event.keyCode === 13) {
@@ -129,7 +127,7 @@ function prependCard(idea) {
         <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
       </div>
     </div>`
-  );
+  )
 };
 
 function resetInputs() {
@@ -147,5 +145,23 @@ function evalInputs() {
   } else {
     addCard();
     resetInputs();
+  }
+};
+
+
+
+
+$('#search-bar').on('keyup', searchCards)
+
+function searchCards() {
+  var search = $(this).val().toUpperCase();
+  var results = ideaArray.filter(function(elementCard) {
+    return elementCard.title.toUpperCase().includes(search) ||
+    elementCard.body.toUpperCase().includes(search) ||
+    elementCard.status.toUpperCase().includes(search);
+  });
+  $('.idea-stream').empty();
+  for (var i = 0; i < results.length; i++) {
+    prependCard(results[i]);
   }
 };

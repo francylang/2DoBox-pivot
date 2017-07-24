@@ -4,8 +4,8 @@ $(document).ready(function() {
   getIdeaFromStorage();
 });
 
-$("#idea-body, #idea-title").on('keyup', enableSave);
-$("#save-button").on('click', disableSave)
+$("#todo-task, #todo-title").on('keyup', enableSave);
+$("#save-btn").on('click', disableSave)
 $(".idea-stream").on('click', ".delete-button", removeCard);
 $(document).on('click', ".delete-btn", deleteCard);
 $(".idea-stream").on('click', ".upvote-btn", upvoteRating);
@@ -15,15 +15,15 @@ $('.idea-stream').on('keyup', 'p', editBody)
 
 
 function enableSave() {
-  if (($("#idea-title").val() !== "") || ($("#idea-body").val() !== "")) {
-    $("#save-button").removeAttr("disabled");
+  if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
+    $("#save-btn").removeAttr("disabled");
   }
 };
 
 function disableSave() {
   event.preventDefault();
   evalInputs();
-  $("#save-button").attr("disabled", "disabled");
+  $("#save-btn").attr("disabled", "disabled");
 };
 
 function removeCard() {
@@ -58,8 +58,8 @@ function FreshIdea(title, body, status) {
 };
 
 function addCard() {
-  var ideaTitle = $("#idea-title").val();
-  var ideaBody = $("#idea-body").val();
+  var ideaTitle = $("#todo-title").val();
+  var ideaBody = $("#todo-task").val();
   var ideaStatus = "swill"
   var newIdea = new FreshIdea(ideaTitle, ideaBody, ideaStatus);
   prependCard(newIdea);
@@ -131,13 +131,13 @@ function prependCard(idea) {
 };
 
 function resetInputs() {
-  $('#idea-title').val('');
-  $('#idea-body').val('');
+  $('#todo-title').val('');
+  $('#todo-task').val('');
 };
 
 function evalInputs() {
-  var ideaTitle = $("#idea-title").val();
-  var ideaBody = $("#idea-body").val();
+  var ideaTitle = $("#todo-title").val();
+  var ideaBody = $("#todo-task").val();
   if (!ideaTitle) {
     return alert("Please enter a title.");
   } else if (!ideaBody) {

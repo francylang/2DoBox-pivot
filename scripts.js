@@ -3,6 +3,7 @@ var ideaArray = [];
 $(document).ready(function() {
   getIdeaFromStorage();
 });
+$('.todo-card-section').on('click', '#delete', deleteCard)
 
 $("#todo-task, #todo-title").on('keyup', enableSave);
 $("#save-btn").on('click', disableSave)
@@ -12,8 +13,6 @@ $(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
 $('#search-bar').on('keyup', searchCards)
-
-
 
 function enableSave() {
   if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
@@ -27,13 +26,21 @@ function disableSave() {
   $("#save-btn").attr("disabled", "disabled");
 };
 
-
 function upvoteRating() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'swill') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
+    console.log('first if');
+
   } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
+  console.log('else')
   }
+  var id = $(this).closest('.idea-card')[0].id;
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      card.status = $('.idea-quality').text()
+  }});
+  sendIdeaToStorage();
 };
 
 function downVoteRating() {
@@ -42,6 +49,12 @@ function downVoteRating() {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
   } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
   }
+  var id = $(this).closest('.idea-card')[0].id;
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      card.status = $('.idea-quality').text()
+  }});
+  sendIdeaToStorage();
 };
 
 function FreshIdea(title, body, status) {
@@ -90,7 +103,6 @@ function editTitle(event) {
   });
   sendIdeaToStorage();
 };
-
 
 function editBody(event) {
   if (event.keyCode === 13) {
@@ -142,7 +154,6 @@ function evalInputs() {
   }
 };
 
-
 function searchCards() {
   var search = $(this).val().toUpperCase();
   var results = ideaArray.filter(function(elementCard) {
@@ -156,15 +167,14 @@ function searchCards() {
   }
 };
 
-$('.todo-card-section').on('click', '#delete', deleteCard)
-
  function deleteCard() {
   var currentCardId = $(this).closest('.idea-card')[0].id
   ideaArray.forEach(function(card, index) {
     if (currentCardId == card.id) {
       ideaArray.splice(index, 1)
     }
-  })
+  });
+
   sendIdeaToStorage()
   $(this).closest('.idea-card').remove()
 };

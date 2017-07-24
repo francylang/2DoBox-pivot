@@ -6,12 +6,12 @@ $(document).ready(function() {
 
 $("#todo-task, #todo-title").on('keyup', enableSave);
 $("#save-btn").on('click', disableSave)
-$(".idea-stream").on('click', ".delete-button", removeCard);
+$(".todo-card-section").on('click', ".delete-button", removeCard);
 $(document).on('click', ".delete-btn", deleteCard);
-$(".idea-stream").on('click', ".upvote-btn", upvoteRating);
-$(".idea-stream").on('click', ".downvote-btn", downVoteRating);
-$('.idea-stream').on('keyup', 'h2', editTitle);
-$('.idea-stream').on('keyup', 'p', editBody)
+$(".todo-card-section").on('click', ".upvote-btn", upvoteRating);
+$(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
+$('.todo-card-section').on('keyup', 'h2', editTitle);
+$('.todo-card-section').on('keyup', 'p', editBody)
 
 
 function enableSave() {
@@ -114,7 +114,7 @@ function editBody(event) {
 };
 
 function prependCard(idea) {
-  $('.idea-stream').prepend(
+  $('.todo-card-section').prepend(
     `<div class="idea-card" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
@@ -160,7 +160,7 @@ function searchCards() {
     elementCard.body.toUpperCase().includes(search) ||
     elementCard.status.toUpperCase().includes(search);
   });
-  $('.idea-stream').empty();
+  $('.todo-card-section').empty();
   for (var i = 0; i < results.length; i++) {
     prependCard(results[i]);
   }

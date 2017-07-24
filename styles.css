@@ -65,17 +65,17 @@ form {
   font-weight: bold;
 }
 
-#idea-body {
+#todo-task {
   margin-bottom:
 }
 
-#idea-title,
-#idea-body {
+#todo-title,
+#todo-task {
   padding-left: 5px;
 }
 
 
-#save-button {
+#save-btn {
   background-color: #00A79D;
   border-style: none;
   color: #FFFFFF;
@@ -83,17 +83,17 @@ form {
   margin-bottom: 5px;
 }
 
-#save-button:hover {
+#save-btn:hover {
   background-color: #045E55;
 }
 
-#save-button:disabled {
+#save-btn:disabled {
   background-color: #D1D3D4;
 }
 
-#idea-title,
-#idea-body,
-#save-button,
+#todo-title,
+#todo-task,
+#save-btn,
 #search-bar:focus {
   outline: none;
 }
@@ -250,22 +250,22 @@ p {
     height: 380px;
   }
 
-  #idea-title,
+  #todo-title,
   #search-bar {
     height: 50px;
   }
 
-  #idea-body {
+  #todo-task {
     height: 120px;
     padding-bottom: 75px;
   }
 
-  #save-button {
+  #save-btn {
     font-size: 30px;
     height: 60px;
   }
 
-  ::-webkit-#idea-body-placeholder {
+  ::-webkit-#todo-task-placeholder {
     padding-bottom: 75px;
   }
 

@@ -29,12 +29,12 @@ h1 {
   text-align: center;
 }
 
-.idea-stage {
+.todo-stage {
   margin: auto;
   width: 50%;
 }
 
-.idea-text {
+.todo-text {
   color: #00A79D;
 }
 
@@ -222,13 +222,13 @@ p {
 
 
 @media (max-width: 900px) {
-  .idea-stage {
+  .todo-stage {
     width: 80%;
   }
 }
 
 @media (max-width: 750px) {
-  .idea-stage {
+  .todo-stage {
     width: 90%;
   }
 }

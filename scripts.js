@@ -19,29 +19,31 @@ $('#search-bar').on('keyup', searchCards)
 
 // put the qualities in an array
 function upvoteRating() {
-  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
+  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
   if (checkQualityStatus === 'swill') {
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
+    checkQualityStatus.text('plausible');
+  } else {
+    checkQualityStatus.text('genius');
   }
   var id = $(this).closest('.idea-card')[0].id;
   ideaArray.forEach(function(card) {
     if (card.id == id) {
-      card.status = $('.idea-quality').text()
+      card.status = checkQualityStatus.text();
   }});
   sendIdeaToStorage();
 };
 
 function downVoteRating() {
-  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
-  if (checkQualityStatus === 'genius') {
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
+  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
+  if (checkQualityStatus.text() === 'genius') {
+    checkQualityStatus.text('plausible');
+  } else {
+    checkQualityStatus.text('swill')
   }
   var id = $(this).closest('.idea-card')[0].id;
   ideaArray.forEach(function(card) {
     if (card.id == id) {
-      card.status = $('.idea-quality').text()
+      card.status = checkQualityStatus.text();
   }});
   sendIdeaToStorage();
 };

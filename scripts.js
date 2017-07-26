@@ -1,21 +1,18 @@
-// var ideaArray = [];
-
 $(document).ready(function() {
-  getIdeaFromStorage();
+  getToDoFromStorage();
 });
 
+// -------------------EVENT LISTENERS---------------------
 $('.todo-card-section').on('click', '#delete', deleteCard)
-$("#todo-task, #todo-title").on('keyup', enableSave);
-$("#save-btn").on('click', disableSave)
-$(document).on('click', ".delete-btn", deleteCard);
 $(".todo-card-section").on('click', ".upvote-btn", upvoteRating);
 $(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
+$("#todo-task, #todo-title").on('keyup', enableSave);
 $('#search-bar').on('keyup', searchCards)
-                .on('keyup', enterKeyBlur)
-
-
+$("#save-btn").on('click', disableSave)
+$(document).on('click', ".delete-btn", deleteCard);
+$(document).on('keyup', enterKeyBlur)
 
 // put the qualities in an array
 function upvoteRating() {
@@ -25,7 +22,7 @@ function upvoteRating() {
   } else {
     checkQualityStatus.text('genius');
   }
-  var id = $(this).closest('.idea-card')[0].id;
+  var id = $(this).closest('.to-do-card')[0].id;
   ideaArray.forEach(function(card) {
     if (card.id == id) {
       card.status = checkQualityStatus.text();
@@ -40,7 +37,7 @@ function downVoteRating() {
   } else {
     checkQualityStatus.text('swill')
   }
-  var id = $(this).closest('.idea-card')[0].id;
+  var id = $(this).closest('.to-do-card')[0].id;
   ideaArray.forEach(function(card) {
     if (card.id == id) {
       card.status = checkQualityStatus.text();
@@ -48,8 +45,7 @@ function downVoteRating() {
   sendIdeaToStorage();
 };
 
-
-
+// ----------ADD CARD/ TO-DO------------
 function addCard() {
   var ideaTitle = $("#todo-title").val();
   var ideaBody = $("#todo-task").val();
@@ -60,21 +56,15 @@ function addCard() {
   sendIdeaToStorage();
 };
 
-
-
 // function getLocalStorage() {
 //   localStorage.setItem("")
 //   console.log('getLocalStorage')
 // }
 
-
-
-
-
-
+// ----------PREPEND CARD/TO-DO------------
 function prependCard(idea) {
   $('.todo-card-section').prepend(
-    `<div class="idea-card" id="${idea.id}">
+    `<div class="to-do-card" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
         <div class="delete-btn" id="delete"></div>
@@ -89,7 +79,6 @@ function prependCard(idea) {
   )
 };
 
-
 function searchCards() {
   var search = $(this).val().toUpperCase();
   var results = ideaArray.filter(function(elementCard) {
@@ -103,53 +92,56 @@ function searchCards() {
   }
 };
 
-
+// FILTER FOR IMPORTANCE-------
+// function search() {
+//   var toDoArray = getToDoFromStorage();
+//   var inputText = $('')
+// }
 
 function deleteCard() {
- var currentCardId = $(this).closest('.idea-card')[0].id
+ var currentCardId = $(this).closest('.to-do-card')[0].id
  ideaArray.forEach(function(card, index) {
    if (currentCardId == card.id) {
      ideaArray.splice(index, 1)
    }
  });
  sendIdeaToStorage()
- $(this).closest('.idea-card').remove()
+ $(this).closest('.to-do-card').remove()
 };
 
-function getIdeaFromStorage() {
-    ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
-    ideaArray.forEach(function(element) {
-    prependCard(element);
-    });
-  }
 // storage check function
 // include cardArray = []
 // retrieve localStorage function
 // limit card list function
 // clear inputs function
 
+
 function storageControl() {
   var cardArray = []
-  getIdeaFromStorage();
-}
-// -----------------------WORKING REFACTORED FUNCTIONS------------
+  getToDoFromStorage();
+};
 
+
+
+// -----------------------WORKING REFACTORED FUNCTIONS----------------------------
+
+// ----------CONSTRUCTOR FUNCTION------------
 function FreshIdea(title, body, status) {
   this.title = title;
   this.body = body;
-  this.status = "swill";
+  // this.status = "swill";
   this.id = Date.now();
+  this.importance = 'normal';
 };
-
-// -----return/enterkey---------
+// -------RETURN FUNCTION---------
 function enterKeyBlur(e) {
   if (e.which === 13) {
     $(e.target).blur();
   }
 }
-// ------EDIT TITLE AND TASK------------
+// --------EDIT TITLE------------
 function editTitle(event) {
-  var id = $(this).closest('.idea-card')[0].id;
+  var id = $(this).closest('.to-do-card')[0].id;
   var title = $(this).text(); {
   enterKeyBlur(event);
   ideaArray.forEach(function(card) {
@@ -160,9 +152,9 @@ function editTitle(event) {
   sendIdeaToStorage();
  }
 };
-
+// ------EDIT TASK------------
 function editBody(event) {
-  var id = $(this).closest('.idea-card')[0].id;
+  var id = $(this).closest('.to-do-card')[0].id;
   var body = $(this).text();
   enterKeyBlur(event);
   ideaArray.forEach(function(card) {
@@ -172,11 +164,35 @@ function editBody(event) {
   });
   sendIdeaToStorage();
 };
-// ------SEND TO LOCAL STORAGE------------
+
+// ----------SEND TO LOCAL STORAGE/ STORE TO-DO------------
 function sendIdeaToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 };
 
+// ----------GET FROM LOCAL STORAGE------------
+function getToDoFromStorage() {
+    ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
+    ideaArray.forEach(function(element) {
+    prependCard(element);
+    });
+  }
+// ----------GET SHIT------------
+function getToDoId(todo) {
+    return todo.id;
+  }
+function getToDoIndex(id) {
+    var todos = getToDoFromStorage();
+    return todos.map(getToDoId).indexOf(parseInt(id));
+  }
+
+function getInputs() {
+  return { title: $('#todo-title').val(),
+  task: $('#todo-task').val(),
+  id: Date.now() };
+}
+
+// ---------SAVE BUTTON------------
 function enableSave() {
   if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
     $("#save-btn").removeAttr("disabled");
@@ -188,21 +204,37 @@ function disableSave() {
   evalInputsAlertIfEmpty();
   $("#save-btn").attr("disabled", "disabled");
 };
-
+// ----------EVALUATE INPUTS------------
 function evalInputsAlertIfEmpty() {
-  var ideaTitle = $("#todo-title").val();
-  var ideaBody = $("#todo-task").val();
-  if (!ideaTitle) {
-    return alert("Please enter a title.");
-  } else if (!ideaBody) {
-    return alert ("Please enter something in the body.");
+  var todoTitle = $("#todo-title").val();
+  var todoTask = $("#todo-task").val();
+  if (!todoTitle) {
+    return alert("Please enter a task title.");
+  } else if (!todoTask) {
+    return alert ("Please enter a task.");
   } else {
     addCard();
     resetInputs();
   }
 };
-
+// -----------RESET INPUTS------------
 function resetInputs() {
   $('#todo-title').val('');
   $('#todo-task').val('');
 };
+
+
+
+// function importanceIndicator() {
+//   var toDoArray = getToDoFromStorage();
+//   var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
+//   var toDoCard = $(e.target).closest('.to-do-card')[0];
+//   var editChange = $(e.target).data('')
+
+// toDoArray.forEach(function(card, index) {
+//   if (card.id == card.id) {
+//     var currentIndex = importanceArray.indexOf(todo.importance);
+//     i
+//   }
+// })
+// }

@@ -3,10 +3,6 @@
 $(document).ready(function() {
   getIdeaFromStorage();
 });
-// add localStorage to document.ready
-// instead of assuming the array is there, you grab it from localStorage
-// localStorage, key value pair (key= ideaArray, [])
-  // if there is an array use it, if not localStorage.setItem
 
 $('.todo-card-section').on('click', '#delete', deleteCard)
 $("#todo-task, #todo-title").on('keyup', enableSave);
@@ -19,17 +15,7 @@ $('.todo-card-section').on('keyup', 'p', editBody)
 $('#search-bar').on('keyup', searchCards)
                 .on('keyup', enterKeyBlur)
 
-function enableSave() {
-  if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
-    $("#save-btn").removeAttr("disabled");
-  }
-};
 
-function disableSave() {
-  event.preventDefault();
-  evalInputs();
-  $("#save-btn").attr("disabled", "disabled");
-};
 
 // put the qualities in an array
 function upvoteRating() {
@@ -74,9 +60,7 @@ function addCard() {
   sendIdeaToStorage();
 };
 
-function sendIdeaToStorage() {
-  localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
-};
+
 
 // function getLocalStorage() {
 //   localStorage.setItem("")
@@ -85,12 +69,7 @@ function sendIdeaToStorage() {
 
 
 
-function getIdeaFromStorage() {
-    ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
-    ideaArray.forEach(function(element) {
-    prependCard(element);
-    });
-  }
+
 
 
 function prependCard(idea) {
@@ -110,23 +89,6 @@ function prependCard(idea) {
   )
 };
 
-function resetInputs() {
-  $('#todo-title').val('');
-  $('#todo-task').val('');
-};
-
-function evalInputs() {
-  var ideaTitle = $("#todo-title").val();
-  var ideaBody = $("#todo-task").val();
-  if (!ideaTitle) {
-    return alert("Please enter a title.");
-  } else if (!ideaBody) {
-    return alert ("Please enter something in the body.");
-  } else {
-    addCard();
-    resetInputs();
-  }
-};
 
 function searchCards() {
   var search = $(this).val().toUpperCase();
@@ -141,33 +103,36 @@ function searchCards() {
   }
 };
 
- function deleteCard() {
-  var currentCardId = $(this).closest('.idea-card')[0].id
-  ideaArray.forEach(function(card, index) {
-    if (currentCardId == card.id) {
-      ideaArray.splice(index, 1)
-    }
-  });
-  sendIdeaToStorage()
-  $(this).closest('.idea-card').remove()
+
+
+function deleteCard() {
+ var currentCardId = $(this).closest('.idea-card')[0].id
+ ideaArray.forEach(function(card, index) {
+   if (currentCardId == card.id) {
+     ideaArray.splice(index, 1)
+   }
+ });
+ sendIdeaToStorage()
+ $(this).closest('.idea-card').remove()
 };
 
-
-function storageControl() {
-  var cardArray = []
-  getIdeaFromStorage();
-  console.log(storageControl);
-}
-
+function getIdeaFromStorage() {
+    ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
+    ideaArray.forEach(function(element) {
+    prependCard(element);
+    });
+  }
 // storage check function
 // include cardArray = []
 // retrieve localStorage function
 // limit card list function
 // clear inputs function
 
-
+function storageControl() {
+  var cardArray = []
+  getIdeaFromStorage();
+}
 // -----------------------WORKING REFACTORED FUNCTIONS------------
-
 
 function FreshIdea(title, body, status) {
   this.title = title;
@@ -206,4 +171,38 @@ function editBody(event) {
     }
   });
   sendIdeaToStorage();
+};
+// ------SEND TO LOCAL STORAGE------------
+function sendIdeaToStorage() {
+  localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
+};
+
+function enableSave() {
+  if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
+    $("#save-btn").removeAttr("disabled");
+  }
+};
+
+function disableSave() {
+  event.preventDefault();
+  evalInputsAlertIfEmpty();
+  $("#save-btn").attr("disabled", "disabled");
+};
+
+function evalInputsAlertIfEmpty() {
+  var ideaTitle = $("#todo-title").val();
+  var ideaBody = $("#todo-task").val();
+  if (!ideaTitle) {
+    return alert("Please enter a title.");
+  } else if (!ideaBody) {
+    return alert ("Please enter something in the body.");
+  } else {
+    addCard();
+    resetInputs();
+  }
+};
+
+function resetInputs() {
+  $('#todo-title').val('');
+  $('#todo-task').val('');
 };

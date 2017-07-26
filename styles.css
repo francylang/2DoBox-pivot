@@ -74,6 +74,14 @@ form {
   padding-left: 5px;
 }
 
+.completed-task-btn {
+  font-size: 12px;
+  height: 40px;
+  margin-left: 350px;
+  width: 15%;
+  text-align: center;
+}
+
 
 #save-btn {
   background-color: #00A79D;
@@ -83,7 +91,18 @@ form {
   margin-bottom: 5px;
 }
 
-#save-btn:hover {
+.completed-task-btn {
+  background-color: #00A79D;
+  border-style: none;
+  color: #FFFFFF;
+  font-size: 12px;
+  height: 40px;
+  margin-left: 50%;
+  width: 15%;
+}
+
+#save-btn:hover,
+.completed-task-btn:hover {
   background-color: #045E55;
 }
 
@@ -94,6 +113,7 @@ form {
 #todo-title,
 #todo-task,
 #save-btn,
+.completed-task-btn,
 #search-bar:focus {
   outline: none;
 }
@@ -159,65 +179,63 @@ p {
   width: 25px;
 }
 
-.delete-btn{
- height: 1.5em;
- width: 1.5em;
- float: right;
- display: inline-block;
- background-image: url(icons/delete.svg);
+.delete-btn {
+  background-image: url(icons/delete.svg);
+  display: inline-block;
+  float: right;
+  height: 1.5em;
+  width: 1.5em;
 }
+
 #delete:hover {
   background-image: url(icons/delete-hover.svg);
 }
 
 #upvote {
-    height: 1.5em;
-    width: 1.5em;
-    display: inline-block;
-    background-image: url(icons/upvote.svg)
+  background-image: url(icons/upvote.svg);
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 1.5em;
+  width: 1.5em;
 }
+
 #upvote:hover {
-  background-image: url(icons/upvote-hover.svg)
+  background-image: url(icons/upvote-hover.svg);
 }
+
 #downvote {
+  background-image: url(icons/downvote.svg);
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 1.5em;
   margin-left: .5em;
-  height: 1.5em;
   width: 1.5em;
-  display: inline-block;
-  background-image: url(icons/downvote.svg)
 }
+
 #downvote:hover {
-  background-image: url(icons/downvote-hover.svg)
+  background-image: url(icons/downvote-hover.svg);
 }
 
-/*#upvote-button,
-#downvote-button {
-  margin-bottom: 20px;
-  margin-right: 20px;
-}*/
-
-
-
-.delete-btn{
-  height: 1.5em;
-  width: 1.5em;
-  float: right;
+.delete-btn {
+  background-image: url(icons/delete.svg);
+  background-repeat: no-repeat;
   display: inline-block;
-  background-image: url(icons/delete.svg)
-}
-
-#delete,
-{
+  float: right;
   height: 1.5em;
   width: 1.5em;
 }
+
+#delete {
+  height: 1.5em;
+  width: 1.5em;
+}
+
 #delete:hover {
   background-image: url(icons/delete-hover.svg);
 }
 
 
-
-
+/* /////// Media Queries //////// */
 
 
 @media (max-width: 900px) {

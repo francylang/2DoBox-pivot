@@ -83,7 +83,8 @@ function prependCard(idea) {
         <div class="card-quality-flex quality-spacing">
         <div class="upvote-btn" id="upvote"></div>
         <div class="downvote-btn" id="downvote"></div>
-        <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
+        <h3>importance: <span class="idea-quality">${idea.status}</span></h3>
+        <button type="button" class="completed-task-btn">completed task</button>
       </div>
     </div>`
   )

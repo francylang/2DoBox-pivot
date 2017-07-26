@@ -77,7 +77,7 @@ form {
 .completed-task-btn {
   font-size: 12px;
   height: 40px;
-  margin-left: 350px;
+  margin-left: 330px;
   width: 15%;
   text-align: center;
 }
@@ -166,6 +166,7 @@ h2 {
 }
 
 h3 {
+  font-size: 16px;
   margin-left: 5px;
 }
 

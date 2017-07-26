@@ -1,11 +1,11 @@
 $(document).ready(function() {
-  getToDoFromStorage();
+  initialPrepend();
 });
 
 // -------------------EVENT LISTENERS---------------------
 $('.todo-card-section').on('click', '#delete', deleteCard)
-$(".todo-card-section").on('click', ".upvote-btn", upvoteRating);
-$(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
+$(".todo-card-section").on('click', ".upvote-btn", upImportance);
+// $(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
 $("#todo-task, #todo-title").on('keyup', enableSave);
@@ -13,65 +13,65 @@ $('#search-bar').on('keyup', searchCards)
 $("#save-btn").on('click', disableSave)
 $(document).on('click', ".delete-btn", deleteCard);
 $(document).on('keyup', enterKeyBlur)
+$('.bottom-container').on('click', '#none, #low, #normal, #high, #critical', filter)
 
 // RATING THE IMPORTANCE OF QUALITIES-put the qualities in an array
 
 function importanceIndicator() {
-  
+
 }
 
 
 // -----------IMPORTANCE INDICATOR/RATING------------
-// function importanceIndicator() {
-//   var toDoArray = getToDoFromStorage();
-//   var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
-//   var toDoCard = $(e.target).closest('.to-do-card')[0];
-//   var editChange = $(e.target).data('?')
-//
-//   toDoArray.forEach(function(todo, index){
-//     if (todo.id == card.id) {
-//       var index =ideaArray.indexOf(todo.importance);
-//       if (index == 0 && editChange == -1) {
-//         index++;
-//       }
-//     }
-//   })
-
-
-
-
-
-
-
-function upvoteRating() {
-  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
-  if (checkQualityStatus === 'swill') {
-    checkQualityStatus.text('plausible');
-  } else {
-    checkQualityStatus.text('genius');
-  }
+function upImportance() {
   var id = $(this).closest('.to-do-card')[0].id;
+  var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
   ideaArray.forEach(function(card) {
     if (card.id == id) {
-      card.status = checkQualityStatus.text();
-  }});
-  sendIdeaToStorage();
+    var currentIndex = importanceArray.indexOf(card.importance);
+    currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
+    console.log('upImportance');
+    card.importance = importanceArray[currentIndex];
+    console.log(card.importance);
+    $('.' + id).text(card.importance);
+
+    }
+    sendIdeaToStorage();
+  })
 };
 
-function downVoteRating() {
-  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
-  if (checkQualityStatus.text() === 'genius') {
-    checkQualityStatus.text('plausible');
-  } else {
-    checkQualityStatus.text('swill')
-  }
-  var id = $(this).closest('.to-do-card')[0].id;
-  ideaArray.forEach(function(card) {
-    if (card.id == id) {
-      card.status = checkQualityStatus.text();
-  }});
-  sendIdeaToStorage();
-};
+
+
+
+// function upvoteRating() {
+//   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
+//   if (checkQualityStatus === 'swill') {
+//     checkQualityStatus.text('plausible');
+//   } else {
+//     checkQualityStatus.text('genius');
+//   }
+//   var id = $(this).closest('.to-do-card')[0].id;
+//   ideaArray.forEach(function(card) {
+//     if (card.id == id) {
+//       card.status = checkQualityStatus.text();
+//   }});
+//   sendIdeaToStorage();
+// };
+
+// function downVoteRating() {
+//   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
+//   if (checkQualityStatus.text() === 'genius') {
+//     checkQualityStatus.text('plausible');
+//   } else {
+//     checkQualityStatus.text('swill')
+//   }
+//   var id = $(this).closest('.to-do-card')[0].id;
+//   ideaArray.forEach(function(card) {
+//     if (card.id == id) {
+//       card.status = checkQualityStatus.text();
+//   }});
+//   sendIdeaToStorage();
+// };
 
 // ----------ADD CARD/ TO-DO------------
 function addCard() {
@@ -83,11 +83,6 @@ function addCard() {
   ideaArray.push(newIdea);
   sendIdeaToStorage();
 };
-
-// function getLocalStorage() {
-//   localStorage.setItem("")
-//   console.log('getLocalStorage')
-// }
 
 // ----------PREPEND CARD/TO-DO------------
 function prependCard(idea) {
@@ -101,7 +96,7 @@ function prependCard(idea) {
         <div class="card-quality-flex quality-spacing">
         <div class="upvote-btn" id="upvote"></div>
         <div class="downvote-btn" id="downvote"></div>
-        <h3>importance: <span class="idea-quality">${idea.status}</span></h3>
+        <h3>importance: <span class="idea-quality">${idea.importance}</span></h3>
         <button type="button" class="completed-task-btn">completed task</button>
       </div>
     </div>`
@@ -144,7 +139,6 @@ function storageControl() {
 function NewToDo(title, body, importance) {
   this.title = title;
   this.body = body;
-  // this.status = "swill";
   this.id = Date.now();
   this.importance = 'normal';
 };
@@ -187,11 +181,15 @@ function sendIdeaToStorage() {
 
 // ----------GET FROM LOCAL STORAGE------------
 function getToDoFromStorage() {
-    ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
-    ideaArray.forEach(function(element) {
+  ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
+    return ideaArray;
+};
+
+function initialPrepend() {
+  getToDoFromStorage().forEach(function(element) {
     prependCard(element);
-    });
-  }
+  });
+};
 // ----------GET SHIT------------
 function getToDoId(todo) {
     return todo.id;
@@ -254,10 +252,22 @@ function searchCards() {
 
 
 
-toDoArray.forEach(function(card, index) {
-  if (card.id == card.id) {
-    var currentIndex = importanceArray.indexOf(todo.importance);
-    i
-  }
-})
+function filter(event) {
+  event.preventDefault()
+  console.log('string')
+  var arrayFromStorage = getToDoFromStorage();
+  var importanceRating = $(event.target).text();
+  var returnedFilterArray = arrayFromStorage.filter(function(element) {
+    return element.importance === importanceRating;
+  });
+  console.log(returnedFilterArray);
+  filterInOrOut();
+}
+
+function filterInOrOut(returnedFilterArray) {
+  $('to-do-card').empty();
+  returnedFilterArray.forEach(function(todo) {
+    prependCard(todo);
+  })
+
 }

@@ -31,7 +31,7 @@ h1 {
 
 .todo-stage {
   margin: auto;
-  padding-top: 6%;
+  padding-top: 10%;
   width: 50%;
 }
 
@@ -76,10 +76,14 @@ form {
 }
 
 .filter-btn-container {
-  margin-bottom: 50px;
   background-color: gray;
-  height: 40px;
+  height: 60px;
   padding: 7px;
+}
+
+.filter-btn-container p {
+  color: white;
+  text-align: center;
 }
 
 #save-btn {
@@ -108,6 +112,11 @@ form {
   height: 40px;
   margin-left: 50%;
   width: 15%;
+}
+
+.completed-task {
+  background-color: #D1D3D4;
+  text-decoration: line-through;
 }
 
 #save-btn:hover,

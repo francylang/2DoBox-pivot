@@ -6,6 +6,7 @@ $(document).ready(function() {
 $('.todo-card-section').on('click', '#delete', deleteCard)
 $(".todo-card-section").on('click', ".upvote-btn", upvoteRating);
 $(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
+$('.todo-card-section').on('click', '.completed-task-btn', addClassOfCompletedTask);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
 $("#todo-task, #todo-title").on('keyup', enableSave);
@@ -14,10 +15,11 @@ $("#save-btn").on('click', disableSave)
 $(document).on('click', ".delete-btn", deleteCard);
 $(document).on('keyup', enterKeyBlur)
 
+
 // RATING THE IMPORTANCE OF QUALITIES-put the qualities in an array
 
 function importanceIndicator() {
-  
+
 }
 
 
@@ -40,7 +42,14 @@ function importanceIndicator() {
 
 
 
+// ------ Marking card with a class of '.completed-task' -------
 
+function addClassOfCompletedTask() {
+  var currentCard = $(this).closest('.to-do-card');
+  // if card hasClass() of '.completed-task', remove it.
+  // if card does not have '.completed-task', give it one.
+  currentCard.toggleClass("completed-task");
+}
 
 
 function upvoteRating() {
@@ -50,7 +59,7 @@ function upvoteRating() {
   } else {
     checkQualityStatus.text('genius');
   }
-  var id = $(this).closest('.to-do-card')[0].id;
+  var id = $(this).closest('.to-do-card')[0].id; //(.id is javascript method, refactor .... using .attr('id')
   ideaArray.forEach(function(card) {
     if (card.id == id) {
       card.status = checkQualityStatus.text();
@@ -109,11 +118,8 @@ function prependCard(idea) {
 };
 
 
-
-
-
 function deleteCard() {
- var currentCardId = $(this).closest('.to-do-card')[0].id
+ var currentCardId = $(this).closest('.to-do-card')[0].id;
  ideaArray.forEach(function(card, index) {
    if (currentCardId == card.id) {
      ideaArray.splice(index, 1)
@@ -135,10 +141,7 @@ function storageControl() {
   getToDoFromStorage();
 };
 
-
-
-
-// -----------------------WORKING REFACTORED FUNCTIONS----------------------------
+// -----------WORKING REFACTORED FUNCTIONS------------
 
 // ----------CONSTRUCTOR FUNCTION------------
 function NewToDo(title, body, importance) {
@@ -254,10 +257,9 @@ function searchCards() {
 
 
 
-toDoArray.forEach(function(card, index) {
-  if (card.id == card.id) {
-    var currentIndex = importanceArray.indexOf(todo.importance);
-    i
-  }
-})
-}
+// toDoArray.forEach(function(card, index) {
+//   if (card.id == card.id) {
+//     var currentIndex = importanceArray.indexOf(todo.importance);
+//     i
+//   }
+// })

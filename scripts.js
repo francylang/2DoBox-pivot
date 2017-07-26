@@ -1,10 +1,14 @@
-var ideaArray = [];
+// var ideaArray = [];
 
 $(document).ready(function() {
   getIdeaFromStorage();
 });
-$('.todo-card-section').on('click', '#delete', deleteCard)
+// add localStorage to document.ready
+// instead of assuming the array is there, you grab it from localStorage
+// localStorage, key value pair (key= ideaArray, [])
+  // if there is an array use it, if not localStorage.setItem
 
+$('.todo-card-section').on('click', '#delete', deleteCard)
 $("#todo-task, #todo-title").on('keyup', enableSave);
 $("#save-btn").on('click', disableSave)
 $(document).on('click', ".delete-btn", deleteCard);
@@ -13,6 +17,7 @@ $(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
 $('#search-bar').on('keyup', searchCards)
+                .on('keyup', enterKeyBlur)
 
 function enableSave() {
   if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
@@ -26,6 +31,7 @@ function disableSave() {
   $("#save-btn").attr("disabled", "disabled");
 };
 
+// put the qualities in an array
 function upvoteRating() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
   if (checkQualityStatus === 'swill') {
@@ -56,12 +62,7 @@ function downVoteRating() {
   sendIdeaToStorage();
 };
 
-function FreshIdea(title, body, status) {
-  this.title = title;
-  this.body = body;
-  this.status = "swill";
-  this.id = Date.now();
-};
+
 
 function addCard() {
   var ideaTitle = $("#todo-title").val();
@@ -77,46 +78,20 @@ function sendIdeaToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 };
 
+// function getLocalStorage() {
+//   localStorage.setItem("")
+//   console.log('getLocalStorage')
+// }
+
+
+
 function getIdeaFromStorage() {
-  if (localStorage.getItem('ideaArray')) {
-    ideaArray = JSON.parse(localStorage.getItem("ideaArray"));
+    ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
     ideaArray.forEach(function(element) {
-      prependCard(element);
+    prependCard(element);
     });
-  } else {
-    alert('You do not have any of your shit in here');
   }
-};
 
-function editTitle(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    this.blur();
-  }
-  var id = $(this).closest('.idea-card')[0].id;
-  var title = $(this).text();
-  ideaArray.forEach(function(card) {
-    if (card.id == id) {
-      card.title = title;
-    }
-  });
-  sendIdeaToStorage();
-};
-
-function editBody(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    this.blur();
-  }
-  var id = $(this).closest('.idea-card')[0].id;
-  var body = $(this).text();
-  ideaArray.forEach(function(card) {
-    if (card.id == id) {
-      card.body = body;
-    }
-  });
-  sendIdeaToStorage();
-};
 
 function prependCard(idea) {
   $('.todo-card-section').prepend(
@@ -173,7 +148,62 @@ function searchCards() {
       ideaArray.splice(index, 1)
     }
   });
-
   sendIdeaToStorage()
   $(this).closest('.idea-card').remove()
+};
+
+
+function storageControl() {
+  var cardArray = []
+  getIdeaFromStorage();
+  console.log(storageControl);
+}
+
+// storage check function
+// include cardArray = []
+// retrieve localStorage function
+// limit card list function
+// clear inputs function
+
+
+// -----------------------WORKING REFACTORED FUNCTIONS------------
+
+
+function FreshIdea(title, body, status) {
+  this.title = title;
+  this.body = body;
+  this.status = "swill";
+  this.id = Date.now();
+};
+
+// -----return/enterkey---------
+function enterKeyBlur(e) {
+  if (e.which === 13) {
+    $(e.target).blur();
+  }
+}
+// ------EDIT TITLE AND TASK------------
+function editTitle(event) {
+  var id = $(this).closest('.idea-card')[0].id;
+  var title = $(this).text(); {
+  enterKeyBlur(event);
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      card.title = title;
+   }
+  });
+  sendIdeaToStorage();
+ }
+};
+
+function editBody(event) {
+  var id = $(this).closest('.idea-card')[0].id;
+  var body = $(this).text();
+  enterKeyBlur(event);
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      card.body = body;
+    }
+  });
+  sendIdeaToStorage();
 };

@@ -14,7 +14,35 @@ $("#save-btn").on('click', disableSave)
 $(document).on('click', ".delete-btn", deleteCard);
 $(document).on('keyup', enterKeyBlur)
 
-// put the qualities in an array
+// RATING THE IMPORTANCE OF QUALITIES-put the qualities in an array
+
+function importanceIndicator() {
+  
+}
+
+
+// -----------IMPORTANCE INDICATOR/RATING------------
+// function importanceIndicator() {
+//   var toDoArray = getToDoFromStorage();
+//   var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
+//   var toDoCard = $(e.target).closest('.to-do-card')[0];
+//   var editChange = $(e.target).data('?')
+//
+//   toDoArray.forEach(function(todo, index){
+//     if (todo.id == card.id) {
+//       var index =ideaArray.indexOf(todo.importance);
+//       if (index == 0 && editChange == -1) {
+//         index++;
+//       }
+//     }
+//   })
+
+
+
+
+
+
+
 function upvoteRating() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
   if (checkQualityStatus === 'swill') {
@@ -50,7 +78,7 @@ function addCard() {
   var ideaTitle = $("#todo-title").val();
   var ideaBody = $("#todo-task").val();
   var ideaStatus = "swill"
-  var newIdea = new FreshIdea(ideaTitle, ideaBody, ideaStatus);
+  var newIdea = new NewToDo(ideaTitle, ideaBody, ideaStatus);
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
@@ -82,11 +110,7 @@ function prependCard(idea) {
 
 
 
-// FILTER FOR IMPORTANCE-------
-// function search() {
-//   var toDoArray = getToDoFromStorage();
-//   var inputText = $('')
-// }
+
 
 function deleteCard() {
  var currentCardId = $(this).closest('.to-do-card')[0].id
@@ -113,10 +137,11 @@ function storageControl() {
 
 
 
+
 // -----------------------WORKING REFACTORED FUNCTIONS----------------------------
 
 // ----------CONSTRUCTOR FUNCTION------------
-function FreshIdea(title, body, status) {
+function NewToDo(title, body, importance) {
   this.title = title;
   this.body = body;
   // this.status = "swill";
@@ -225,28 +250,6 @@ function searchCards() {
 };
 
 
-
-
-
-
-
-
-
-
-function importanceIndicator() {
-  var toDoArray = getToDoFromStorage();
-  var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
-  var toDoCard = $(e.target).closest('.to-do-card')[0];
-  var editChange = $(e.target).data('?')
-
-  toDoArray.forEach(function(todo, imndex){
-    if (todo.id == card.id) {
-      var index =ideaArray.indexOf(todo.importance);
-      if (index == 0 && editChange == -1) {
-        index++;
-      }
-    }
-  })
 
 
 

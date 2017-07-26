@@ -5,7 +5,7 @@ $(document).ready(function() {
 // -------------------EVENT LISTENERS---------------------
 $('.todo-card-section').on('click', '#delete', deleteCard)
 $(".todo-card-section").on('click', ".upvote-btn", upImportance);
-// $(".todo-card-section").on('click', ".downvote-btn", downVoteRating);
+$(".todo-card-section").on('click', ".downvote-btn", downImportance);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
 $("#todo-task, #todo-title").on('keyup', enableSave);
@@ -30,48 +30,29 @@ function upImportance() {
     if (card.id == id) {
     var currentIndex = importanceArray.indexOf(card.importance);
     currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
-    console.log('upImportance');
     card.importance = importanceArray[currentIndex];
-    console.log(card.importance);
     $('.' + id).text(card.importance);
+    console.log(card.importance);
+
 
     }
     sendIdeaToStorage();
   })
 };
 
-
-
-
-// function upvoteRating() {
-//   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
-//   if (checkQualityStatus === 'swill') {
-//     checkQualityStatus.text('plausible');
-//   } else {
-//     checkQualityStatus.text('genius');
-//   }
-//   var id = $(this).closest('.to-do-card')[0].id;
-//   ideaArray.forEach(function(card) {
-//     if (card.id == id) {
-//       card.status = checkQualityStatus.text();
-//   }});
-//   sendIdeaToStorage();
-// };
-
-// function downVoteRating() {
-//   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality');
-//   if (checkQualityStatus.text() === 'genius') {
-//     checkQualityStatus.text('plausible');
-//   } else {
-//     checkQualityStatus.text('swill')
-//   }
-//   var id = $(this).closest('.to-do-card')[0].id;
-//   ideaArray.forEach(function(card) {
-//     if (card.id == id) {
-//       card.status = checkQualityStatus.text();
-//   }});
-//   sendIdeaToStorage();
-// };
+function downImportance() {
+  var id = $(this).closest('.to-do-card')[0].id;
+  var importanceArray = ['none', 'low', 'normal','high','critical'];
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      var currentIndex = importanceArray.indexOf(card.importance);
+      currentIndex = (currentIndex !== 0) ? currentIndex - 1 : currentIndex;
+      card.importance = importanceArray[currentIndex];
+      card.text(card.importance);
+      }
+      sendIdeaToStorage();
+    })
+  };
 
 // ----------ADD CARD/ TO-DO------------
 function addCard() {
@@ -104,9 +85,6 @@ function prependCard(idea) {
 };
 
 
-
-
-
 function deleteCard() {
  var currentCardId = $(this).closest('.to-do-card')[0].id
  ideaArray.forEach(function(card, index) {
@@ -117,21 +95,6 @@ function deleteCard() {
  sendIdeaToStorage()
  $(this).closest('.to-do-card').remove()
 };
-
-// storage check function
-// include cardArray = []
-// retrieve localStorage function
-// limit card list function
-// clear inputs function
-
-
-function storageControl() {
-  var ideaArray = []
-  getToDoFromStorage();
-};
-
-
-
 
 // -----------------------WORKING REFACTORED FUNCTIONS----------------------------
 
@@ -190,20 +153,12 @@ function initialPrepend() {
     prependCard(element);
   });
 };
-// ----------GET SHIT------------
-function getToDoId(todo) {
-    return todo.id;
-  }
-function getToDoIndex(id) {
-    var todos = getToDoFromStorage();
-    return todos.map(getToDoId).indexOf(parseInt(id));
-  }
+// ----------GET STUFF------------
 function getInputs() {
   return { title: $('#todo-title').val(),
   task: $('#todo-task').val(),
   id: Date.now() };
 }
-
 // ---------SAVE BUTTON------------
 function enableSave() {
   if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
@@ -247,10 +202,7 @@ function searchCards() {
   }
 };
 
-
-
-
-
+// -----------FILTER RESULTS------------
 
 function filter(event) {
   event.preventDefault()

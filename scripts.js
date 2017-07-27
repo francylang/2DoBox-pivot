@@ -6,6 +6,7 @@ $(document).ready(function() {
 $('.todo-card-section').on('click', '#delete', deleteCard)
 $(".todo-card-section").on('click', ".upvote-btn", upImportance);
 $(".todo-card-section").on('click', ".downvote-btn", downImportance);
+$('.todo-card-section').on('click', '.completed-task-btn', addClassOfCompletedTask);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
 $("#todo-task, #todo-title").on('keyup', enableSave);
@@ -15,18 +16,11 @@ $(document).on('click', ".delete-btn", deleteCard);
 $(document).on('keyup', enterKeyBlur)
 $('.bottom-container').on('click', '#none, #low, #normal, #high, #critical', filter)
 
-// RATING THE IMPORTANCE OF QUALITIES-put the qualities in an array
-
-function importanceIndicator() {
-
-}
-
-
 // -----------IMPORTANCE INDICATOR/RATING------------
 function upImportance() {
   var id = $(this).closest('.to-do-card')[0].id;
   var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
-  ideaArray.forEach(function(card) {
+ ideaArray.forEach(function(card) {
     if (card.id == id) {
     var currentIndex = importanceArray.indexOf(card.importance);
     currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
@@ -39,6 +33,7 @@ function upImportance() {
     sendIdeaToStorage();
   })
 };
+
 
 function downImportance() {
   var id = $(this).closest('.to-do-card')[0].id;
@@ -54,6 +49,17 @@ function downImportance() {
     })
   };
 
+// ------ Marking card with a class of '.completed-task' -------
+
+function addClassOfCompletedTask() {
+  var currentCard = $(this).closest('.to-do-card');
+  // if card hasClass() of '.completed-task', remove it.
+  // if card does not have '.completed-task', give it one.
+  currentCard.toggleClass("completed-task");
+}
+
+ //(.id is javascript method, refactor .... using .attr('id')
+ 
 // ----------ADD CARD/ TO-DO------------
 function addCard() {
   var ideaTitle = $("#todo-title").val();
@@ -84,9 +90,8 @@ function prependCard(idea) {
   )
 };
 
-
 function deleteCard() {
- var currentCardId = $(this).closest('.to-do-card')[0].id
+ var currentCardId = $(this).closest('.to-do-card')[0].id;
  ideaArray.forEach(function(card, index) {
    if (currentCardId == card.id) {
      ideaArray.splice(index, 1)
@@ -97,6 +102,19 @@ function deleteCard() {
 };
 
 // -----------------------WORKING REFACTORED FUNCTIONS----------------------------
+
+// storage check function
+// include cardArray = []
+// retrieve localStorage function
+// limit card list function
+// clear inputs function
+
+
+function storageControl() {
+  var ideaArray = []
+  getToDoFromStorage();
+};
+
 
 // ----------CONSTRUCTOR FUNCTION------------
 function NewToDo(title, body, importance) {
@@ -222,4 +240,3 @@ function filterInOrOut(returnedFilterArray) {
     prependCard(todo);
   })
 
-}

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  initialPrepend();
+  prependAll();
 });
 
 // -------------------EVENT LISTENERS---------------------
@@ -15,25 +15,22 @@ $("#save-btn").on('click', disableSave)
 $(document).on('click', '.delete-btn', deleteCard);
 $(document).on('keyup', enterKeyBlur)
 $('.bottom-container').on('click', '#none, #low, #normal, #high, #critical', filter)
+$('#clear-filters').on('click', clearAndReplaceWithAll)
 
 // -----------IMPORTANCE INDICATOR/RATING------------
 function upImportance() {
   var id = $(this).closest('.to-do-card')[0].id;
   var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
-  ideaArray.forEach(function(card) {
+  ideaArray.forEach(function(card, i) {
     if (card.id == id) {
-    var currentIndex = importanceArray.indexOf(card.importance);
-    currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
-    card.importance = importanceArray[currentIndex];
-    $(event.target).siblings().find('span').text(card.importance);
-    console.log(card.importance);
-
-
+      var currentIndex = importanceArray.indexOf(card.importance);
+      currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
+      card.importance = importanceArray[currentIndex];
+      $(event.target).siblings().find('span').text(card.importance);
     }
-    sendIdeaToStorage();
   })
+  sendIdeasToStorage();
 };
-
 
 function downImportance() {
   var id = $(this).closest('.to-do-card')[0].id;
@@ -43,11 +40,11 @@ function downImportance() {
       var currentIndex = importanceArray.indexOf(card.importance);
       currentIndex = (currentIndex !== 0) ? currentIndex - 1 : currentIndex;
       card.importance = importanceArray[currentIndex];
-    $(event.target).siblings().find('span').text(card.importance);
-      }
-      sendIdeaToStorage();
-    })
-  };
+      $(event.target).siblings().find('span').text(card.importance);
+    }
+  })
+  sendIdeasToStorage();
+};
 
 // ------ Marking card with a class of '.completed-task' -------
 
@@ -68,7 +65,7 @@ function addCard() {
   var newIdea = new NewToDo(ideaTitle, ideaBody, ideaStatus);
   prependCard(newIdea);
   ideaArray.push(newIdea);
-  sendIdeaToStorage();
+  sendIdeasToStorage();
 };
 
 // ----------PREPEND CARD/TO-DO------------
@@ -97,24 +94,16 @@ function deleteCard() {
      ideaArray.splice(index, 1)
    }
  });
- sendIdeaToStorage()
+ sendIdeasToStorage()
  $(this).closest('.to-do-card').remove()
 };
 
 // -----------------------WORKING REFACTORED FUNCTIONS----------------------------
 
-// storage check function
-// include cardArray = []
-// retrieve localStorage function
-// limit card list function
-// clear inputs function
-
-
 function storageControl() {
   var ideaArray = []
   getToDoFromStorage();
 };
-
 
 // ----------CONSTRUCTOR FUNCTION------------
 function NewToDo(title, body, importance) {
@@ -139,7 +128,7 @@ function editTitle(event) {
       card.title = title;
    }
   });
-  sendIdeaToStorage();
+  sendIdeasToStorage();
  }
 };
 // ------EDIT TASK------------
@@ -152,11 +141,11 @@ function editBody(event) {
       card.body = body;
     }
   });
-  sendIdeaToStorage();
+  sendIdeasToStorage();
 };
 
 // ----------SEND TO LOCAL STORAGE/ STORE TO-DO------------
-function sendIdeaToStorage() {
+function sendIdeasToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 };
 
@@ -166,7 +155,7 @@ function getToDoFromStorage() {
     return ideaArray;
 };
 
-function initialPrepend() {
+function prependAll() {
   getToDoFromStorage().forEach(function(element) {
     prependCard(element);
   });
@@ -221,22 +210,24 @@ function searchCards() {
 };
 
 // -----------FILTER RESULTS------------
-
 function filter(event) {
   event.preventDefault()
-  console.log('string')
   var arrayFromStorage = getToDoFromStorage();
   var importanceRating = $(event.target).text();
   var returnedFilterArray = arrayFromStorage.filter(function(element) {
     return element.importance === importanceRating;
   });
-  console.log(returnedFilterArray);
-  filterInOrOut();
+  filterInOrOut(returnedFilterArray);
 }
 
 function filterInOrOut(returnedFilterArray) {
-  $('to-do-card').empty();
+  $('.to-do-card').empty();
   returnedFilterArray.forEach(function(todo) {
     prependCard(todo);
   })
+}
+
+function clearAndReplaceWithAll() {
+  $('.to-do-card').empty();
+  prependAll();
 }

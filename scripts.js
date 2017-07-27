@@ -2,7 +2,7 @@ $(document).ready(function() {
   prependAll();
 });
 
-// -------------------EVENT LISTENERS---------------------
+// ------------------- EVENT LISTENERS ---------------------
 $('.todo-card-section').on('click', '#delete', deleteCard)
 $(".todo-card-section").on('click', '.upvote-btn', upImportance);
 $(".todo-card-section").on('click', '.downvote-btn', downImportance);
@@ -17,56 +17,12 @@ $(document).on('keyup', enterKeyBlur)
 $('.bottom-container').on('click', '#none, #low, #normal, #high, #critical', filter)
 $('#clear-filters').on('click', clearAndReplaceWithAll)
 
-// -----------IMPORTANCE INDICATOR/RATING------------
-function upImportance() {
-  var id = $(this).closest('.to-do-card')[0].id;
-  var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
-  ideaArray.forEach(function(card, i) {
-    if (card.id == id) {
-      var currentIndex = importanceArray.indexOf(card.importance);
-      currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
-      card.importance = importanceArray[currentIndex];
-      $(event.target).siblings().find('span').text(card.importance);
-    }
-  })
-  sendIdeasToStorage();
-};
-
-function downImportance() {
-  var id = $(this).closest('.to-do-card')[0].id;
-  var importanceArray = ['none', 'low', 'normal','high','critical'];
-  ideaArray.forEach(function(card) {
-    if (card.id == id) {
-      var currentIndex = importanceArray.indexOf(card.importance);
-      currentIndex = (currentIndex !== 0) ? currentIndex - 1 : currentIndex;
-      card.importance = importanceArray[currentIndex];
-      $(event.target).siblings().find('span').text(card.importance);
-    }
-  })
-  sendIdeasToStorage();
-};
-
-// ------ Marking card with a class of '.completed-task' -------
-
-function addClassOfCompletedTask() {
-  var currentCard = $(this).closest('.to-do-card');
-  // if card hasClass() of '.completed-task', remove it.
-  // if card does not have '.completed-task', give it one.
-  currentCard.toggleClass("completed-task");
-
-}
-
- //(.id is javascript method, refactor .... using .attr('id')
-
-// ----------ADD CARD/ TO-DO------------
-function addCard() {
-  var ideaTitle = $("#todo-title").val();
-  var ideaBody = $("#todo-task").val();
-  var ideaStatus = "swill"
-  var newIdea = new NewToDo(ideaTitle, ideaBody, ideaStatus);
-  prependCard(newIdea);
-  ideaArray.push(newIdea);
-  sendIdeasToStorage();
+// -------- CONSTRUCTOR FUNCTION ---------
+function NewToDo(title, body, importance) {
+  this.title = title;
+  this.body = body;
+  this.id = Date.now();
+  this.importance = 'normal';
 };
 
 // ----------PREPEND CARD/TO-DO------------
@@ -88,6 +44,83 @@ function prependCard(idea) {
   )
 };
 
+function prependAll() {
+  getToDoFromStorage().forEach(function(element) {
+    prependCard(element);
+  });
+};
+
+// ---------- SEND TO LOCAL STORAGE/ STORE TO-DO ------------
+function sendIdeasToStorage() {
+  localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
+};
+
+// ---------- GET ------------
+function getToDoFromStorage() {
+  ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
+    return ideaArray;
+};
+
+function getInputs() {
+  return { title: $('#todo-title').val(),
+  task: $('#todo-task').val(),
+  id: Date.now() };
+};
+
+// -------- IMPORTANCE INDICATOR ---------
+function importanceArray() {
+  return ['none', 'low', 'normal', 'high', 'critical'];
+}
+
+function upImportance() {
+  var id = $(this).closest('.to-do-card')[0].id;
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      var currentIndex = importanceArray().indexOf(card.importance);
+      currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
+      card.importance = importanceArray()[currentIndex];
+      $(event.target).siblings().find('span').text(card.importance);
+    }
+  })
+  sendIdeasToStorage();
+};
+
+function downImportance() {
+  var id = $(this).closest('.to-do-card')[0].id;
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      var currentIndex = importanceArray().indexOf(card.importance);
+      currentIndex = (currentIndex !== 0) ? currentIndex - 1 : currentIndex;
+      card.importance = importanceArray()[currentIndex];
+      $(event.target).siblings().find('span').text(card.importance);
+    }
+  })
+  sendIdeasToStorage();
+};
+
+// ------ Marking card with a class of '.completed-task' -------
+function addClassOfCompletedTask() {
+  var currentCard = $(this).closest('.to-do-card');
+  // if card hasClass() of '.completed-task', remove it.
+  // if card does not have '.completed-task', give it one.
+  currentCard.toggleClass("completed-task");
+
+}
+
+ //(.id is javascript method, refactor .... using .attr('id')
+
+// ---------- ADD CARD/ TO-DO ------------
+function addCard() {
+  var ideaTitle = $("#todo-title").val();
+  var ideaBody = $("#todo-task").val();
+  var ideaStatus = "swill"
+  var newIdea = new NewToDo(ideaTitle, ideaBody, ideaStatus);
+  prependCard(newIdea);
+  ideaArray.push(newIdea);
+  sendIdeasToStorage();
+};
+
+// ---------- DELETE TO-DO ------------
 function deleteCard() {
  var currentCardId = $(this).closest('.to-do-card')[0].id;
  ideaArray.forEach(function(card, index) {
@@ -99,27 +132,13 @@ function deleteCard() {
  $(this).closest('.to-do-card').remove()
 };
 
-// -----------------------WORKING REFACTORED FUNCTIONS----------------------------
-
-function storageControl() {
-  var ideaArray = []
-  getToDoFromStorage();
-};
-
-// ----------CONSTRUCTOR FUNCTION------------
-function NewToDo(title, body, importance) {
-  this.title = title;
-  this.body = body;
-  this.id = Date.now();
-  this.importance = 'normal';
-};
-// -------RETURN FUNCTION---------
+// ------- ENTER KEY FUNCTION ---------
 function enterKeyBlur(e) {
   if (e.which === 13) {
     $(e.target).blur();
   }
 }
-// --------EDIT TITLE------------
+// -------- EDIT TITLE ------------
 function editTitle(event) {
   var id = $(this).closest('.to-do-card')[0].id;
   var title = $(this).text(); {
@@ -132,7 +151,7 @@ function editTitle(event) {
   sendIdeasToStorage();
  }
 };
-// ------EDIT TASK------------
+// -------- EDIT TASK ------------
 function editBody(event) {
   var id = $(this).closest('.to-do-card')[0].id;
   var body = $(this).text();
@@ -145,29 +164,9 @@ function editBody(event) {
   sendIdeasToStorage();
 };
 
-// ----------SEND TO LOCAL STORAGE/ STORE TO-DO------------
-function sendIdeasToStorage() {
-  localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
-};
 
-// ----------GET FROM LOCAL STORAGE------------
-function getToDoFromStorage() {
-  ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
-    return ideaArray;
-};
 
-function prependAll() {
-  getToDoFromStorage().forEach(function(element) {
-    prependCard(element);
-  });
-};
-// ----------GET STUFF------------
-function getInputs() {
-  return { title: $('#todo-title').val(),
-  task: $('#todo-task').val(),
-  id: Date.now() };
-}
-// ---------SAVE BUTTON------------
+// --------- SAVE BUTTON ------------
 function enableSave() {
   if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
     $("#save-btn").removeAttr("disabled");
@@ -179,7 +178,8 @@ function disableSave() {
   evalInputsAlertIfEmpty();
   $("#save-btn").attr("disabled", "disabled");
 };
-// ----------EVALUATE INPUTS------------
+
+// ---------- EVALUATE INPUTS ------------
 function evalInputsAlertIfEmpty() {
   var todoTitle = $("#todo-title").val();
   var todoTask = $("#todo-task").val();
@@ -192,11 +192,13 @@ function evalInputsAlertIfEmpty() {
     resetInputs();
   }
 };
+
 // -----------RESET INPUTS------------
 function resetInputs() {
   $('#todo-title').val('');
   $('#todo-task').val('');
 };
+
 // -----------SEARCH TO DO CARDS------------
 function searchCards() {
   var search = $(this).val().toUpperCase();
@@ -210,7 +212,7 @@ function searchCards() {
   }
 };
 
-// -----------FILTER RESULTS------------
+// -----------FILTER BY IMPORTANCE------------
 function filter(event) {
   event.preventDefault()
   var arrayFromStorage = getToDoFromStorage();
@@ -222,13 +224,13 @@ function filter(event) {
 }
 
 function filterInOrOut(returnedFilterArray) {
-  $('.to-do-card').empty();
+  $('.todo-card-section').empty();
   returnedFilterArray.forEach(function(todo) {
     prependCard(todo);
   })
 }
 
 function clearAndReplaceWithAll() {
-  $('.to-do-card').empty();
+  $('.todo-card-section').empty();
   prependAll();
 }

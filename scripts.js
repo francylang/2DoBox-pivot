@@ -56,6 +56,7 @@ function addClassOfCompletedTask() {
   // if card hasClass() of '.completed-task', remove it.
   // if card does not have '.completed-task', give it one.
   currentCard.toggleClass("completed-task");
+
 }
 
  //(.id is javascript method, refactor .... using .attr('id')

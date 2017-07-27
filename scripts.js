@@ -113,7 +113,7 @@ function addClassOfCompletedTask() {
 function addCard() {
   var ideaTitle = $("#todo-title").val();
   var ideaBody = $("#todo-task").val();
-  var ideaStatus = "swill"
+  var ideaStatus = "normal"
   var newIdea = new NewToDo(ideaTitle, ideaBody, ideaStatus);
   prependCard(newIdea);
   ideaArray.push(newIdea);
@@ -139,7 +139,7 @@ function enterKeyBlur(e) {
   }
 }
 // -------- EDIT TITLE ------------
-function editTitle(event) {
+function editTitle() {
   var id = $(this).closest('.to-do-card')[0].id;
   var title = $(this).text(); {
   enterKeyBlur(event);
@@ -151,8 +151,9 @@ function editTitle(event) {
   sendIdeasToStorage();
  }
 };
+
 // -------- EDIT TASK ------------
-function editBody(event) {
+function editBody() {
   var id = $(this).closest('.to-do-card')[0].id;
   var body = $(this).text();
   enterKeyBlur(event);
@@ -164,29 +165,26 @@ function editBody(event) {
   sendIdeasToStorage();
 };
 
-
-
 // --------- SAVE BUTTON ------------
 function enableSave() {
-  if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
-    $("#save-btn").removeAttr("disabled");
+  if (($('#todo-title').val() !== "") || ($('#todo-task').val() !== '')) {
+    $('#save-btn').removeAttr('disabled');
   }
 };
 
 function disableSave() {
-  event.preventDefault();
   evalInputsAlertIfEmpty();
-  $("#save-btn").attr("disabled", "disabled");
+  $('#save-btn').attr('disabled', 'disabled');
 };
 
 // ---------- EVALUATE INPUTS ------------
 function evalInputsAlertIfEmpty() {
-  var todoTitle = $("#todo-title").val();
-  var todoTask = $("#todo-task").val();
+  var todoTitle = $('#todo-title').val();
+  var todoTask = $('#todo-task').val();
   if (!todoTitle) {
-    return alert("Please enter a task title.");
+    return alert('Please enter a task title.');
   } else if (!todoTask) {
-    return alert ("Please enter a task.");
+    return alert ('Please enter a task.');
   } else {
     addCard();
     resetInputs();

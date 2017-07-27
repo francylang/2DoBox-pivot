@@ -4,15 +4,15 @@ $(document).ready(function() {
 
 // -------------------EVENT LISTENERS---------------------
 $('.todo-card-section').on('click', '#delete', deleteCard)
-$(".todo-card-section").on('click', ".upvote-btn", upImportance);
-$(".todo-card-section").on('click', ".downvote-btn", downImportance);
+$(".todo-card-section").on('click', '.upvote-btn', upImportance);
+$(".todo-card-section").on('click', '.downvote-btn', downImportance);
 $('.todo-card-section').on('click', '.completed-task-btn', addClassOfCompletedTask);
 $('.todo-card-section').on('keyup', 'h2', editTitle);
 $('.todo-card-section').on('keyup', 'p', editBody)
 $("#todo-task, #todo-title").on('keyup', enableSave);
 $('#search-bar').on('keyup', searchCards)
 $("#save-btn").on('click', disableSave)
-$(document).on('click', ".delete-btn", deleteCard);
+$(document).on('click', '.delete-btn', deleteCard);
 $(document).on('keyup', enterKeyBlur)
 $('.bottom-container').on('click', '#none, #low, #normal, #high, #critical', filter)
 
@@ -20,12 +20,12 @@ $('.bottom-container').on('click', '#none, #low, #normal, #high, #critical', fil
 function upImportance() {
   var id = $(this).closest('.to-do-card')[0].id;
   var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
- ideaArray.forEach(function(card) {
+  ideaArray.forEach(function(card) {
     if (card.id == id) {
     var currentIndex = importanceArray.indexOf(card.importance);
     currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
     card.importance = importanceArray[currentIndex];
-    $('.' + id).text(card.importance);
+    $(event.target).siblings().find('span').text(card.importance);
     console.log(card.importance);
 
 
@@ -43,7 +43,7 @@ function downImportance() {
       var currentIndex = importanceArray.indexOf(card.importance);
       currentIndex = (currentIndex !== 0) ? currentIndex - 1 : currentIndex;
       card.importance = importanceArray[currentIndex];
-      card.text(card.importance);
+    $(event.target).siblings().find('span').text(card.importance);
       }
       sendIdeaToStorage();
     })
@@ -59,7 +59,7 @@ function addClassOfCompletedTask() {
 }
 
  //(.id is javascript method, refactor .... using .attr('id')
- 
+
 // ----------ADD CARD/ TO-DO------------
 function addCard() {
   var ideaTitle = $("#todo-title").val();
@@ -239,4 +239,4 @@ function filterInOrOut(returnedFilterArray) {
   returnedFilterArray.forEach(function(todo) {
     prependCard(todo);
   })
-
+}

@@ -61,12 +61,6 @@ function getToDoFromStorage() {
     return ideaArray;
 };
 
-function getInputs() {
-  return { title: $('#todo-title').val(),
-  task: $('#todo-task').val(),
-  id: Date.now() };
-};
-
 // -------- IMPORTANCE INDICATOR ---------
 function importanceArray() {
   return ['none', 'low', 'normal', 'high', 'critical'];

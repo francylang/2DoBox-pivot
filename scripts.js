@@ -2,7 +2,8 @@ $(document).ready(function() {
   prependAll(getToDoFromStorage());
 });
 
-// -----------EVENT LISTENERS------------
+
+// ------------------- EVENT LISTENERS ---------------------
 $('.todo-card-section').on('click', '#delete', deleteCard);
 $(".todo-card-section").on('click', '.upvote-btn', upImportance);
 $(".todo-card-section").on('click', '.downvote-btn', downImportance);
@@ -40,6 +41,7 @@ function addClassOfCompletedTask() {
   });
   sendIdeasToStorage();
 }
+
 
 function prepareTheCardInfo(card) {
   var initialClass;
@@ -185,35 +187,35 @@ function filterOutClassy() {
   })
 }
 
-/////////////////////////////////////////////////////////////////////
+
 function prependAll(ideaArray) {
   var lengthOfTenArray = filterOutClassy();
   lengthOfTenArray.slice(-10).forEach(function(el){
     appendLastTenCards(el);
   });
 }
-//////////////////////////////////////////////////////////////////////
+
 
 function enableSave() {
-  if (($("#todo-title").val() !== "") || ($("#todo-task").val() !== "")) {
-    $("#save-btn").removeAttr("disabled");
+  if (($('#todo-title').val() !== "") || ($('#todo-task').val() !== '')) {
+    $('#save-btn').removeAttr('disabled');
   }
 };
 
 
 function disableSave() {
-  event.preventDefault();
   evalInputsAlertIfEmpty();
-  $("#save-btn").attr("disabled", "disabled");
+  $('#save-btn').attr('disabled', 'disabled');
 };
 
+
 function evalInputsAlertIfEmpty() {
-  var todoTitle = $("#todo-title").val();
-  var todoTask = $("#todo-task").val();
+  var todoTitle = $('#todo-title').val();
+  var todoTask = $('#todo-task').val();
   if (!todoTitle) {
-    return alert("Please enter a task title.");
+    return alert('Please enter a task title.');
   } else if (!todoTask) {
-    return alert ("Please enter a task.");
+    return alert ('Please enter a task.');
   } else {
     addCard();
     resetInputs();
@@ -251,14 +253,14 @@ function filter(event) {
 }
 
 function filterInOrOut(returnedFilterArray) {
-  $('.to-do-card').empty();
+  $('.todo-card-section').empty();
   returnedFilterArray.forEach(function(todo) {
     prepareTheCardInfo(todo);
   })
 }
 
 function clearAndReplaceWithAll() {
-  $('.to-do-card').empty();
+  $('.todo-card-section').empty();
   appendLastTenCards();
 }
 

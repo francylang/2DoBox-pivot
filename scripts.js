@@ -106,13 +106,13 @@ function deleteCard() {
 
 
 function upImportance() {
-  var id = $(this).closest('.to-do-card')[0].id;
+  var id = $(this).parent().parent('.to-do-card')[0].id;
   var importanceArray = ['none', 'low', 'normal', 'high', 'critical'];
   toDoArray.forEach(function(card, i) {
     if (card.id == id) {
-      var currentIndex = importanceArray().indexOf(card.importance);
+      var currentIndex = importanceArray.indexOf(card.importance);
       currentIndex = (currentIndex != 4) ? currentIndex + 1 : currentIndex;
-      card.importance = importanceArray()[currentIndex];
+      card.importance = importanceArray[currentIndex];
       $(event.target).siblings().find('span').text(card.importance);
     }
   })
@@ -125,9 +125,9 @@ function downImportance() {
   var importanceArray = ['none', 'low', 'normal','high','critical'];
   toDoArray.forEach(function(card) {
     if (card.id == id) {
-      var currentIndex = importanceArray().indexOf(card.importance);
+      var currentIndex = importanceArray.indexOf(card.importance);
       currentIndex = (currentIndex !== 0) ? currentIndex - 1 : currentIndex;
-      card.importance = importanceArray()[currentIndex];
+      card.importance = importanceArray[currentIndex];
       $(event.target).siblings().find('span').text(card.importance);
     }
   })

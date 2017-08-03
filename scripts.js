@@ -259,7 +259,7 @@ function filterInOrOut(returnedFilterArray) {
 
 function clearAndReplaceWithAll() {
   $('.to-do-card').empty();
-  appendLastTenCards();
+  prependAll();
 }
 
 function filterTasksWithoutCompletedClass(e) {

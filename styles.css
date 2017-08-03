@@ -15,8 +15,8 @@ body {
   margin: auto;
   max-width: 100%;
   background-color: #E5F3F2;
-  height: 255px;
-  position: sticky;
+  height: 50vh;
+  /*position: sticky;*/
   top: 0;
   width: 100%;
 }
@@ -31,8 +31,12 @@ h1 {
 
 .todo-stage {
   margin: auto;
-  padding-top: 10%;
+  /*padding-top: 5%;*/
   width: 50%;
+}
+
+.todo-card-section {
+  margin-top: 30px;
 }
 
 .todo-text {
@@ -143,6 +147,7 @@ form {
 
 .bottom-container {
   margin: 0;
+  margin-top: 115px;
   width: 100%;
 }
 
@@ -160,6 +165,7 @@ form {
 }
 
 .card-title-flex {
+  align-items: baseline;
   justify-content: space-between;
   margin-top: 18px;
 
@@ -182,6 +188,7 @@ h3 {
 h2 {
   font-size: 22px;
   font-weight: bold;
+  width: 95%;
 }
 
 h3 {
@@ -203,6 +210,9 @@ p {
   background-image: url(icons/delete.svg);
   display: inline-block;
   float: right;
+  z-index: 20;
+  position: relative;
+  top: 0px;
   height: 1.5em;
   width: 1.5em;
 }

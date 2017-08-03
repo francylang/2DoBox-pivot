@@ -81,8 +81,9 @@ form {
 
 .filter-btn-container {
   background-color: gray;
-  height: 60px;
-  padding: 7px;
+  height: 85px;
+  padding: 5px;
+  text-align: center;
 }
 
 .filter-btn-container p {
@@ -102,10 +103,10 @@ form {
   background-color: #00A79D;
   border-style: none;
   color: #FFFFFF;
-  font-size: 12px;
+  font-size: 10px;
   height: 20px;
   margin-left: 1%;
-  width: 15%;
+  width: 14%;
 }
 
 .completed-task-btn {
@@ -147,7 +148,7 @@ form {
 
 .bottom-container {
   margin: 0;
-  margin-top: 115px;
+  /*margin-top: 115px;*/
   width: 100%;
 }
 
@@ -272,15 +273,32 @@ p {
   .todo-stage {
     width: 80%;
   }
+
+  .importance-btn {
+    width: 14%;
+  }
 }
 
 @media (max-width: 750px) {
   .todo-stage {
     width: 90%;
   }
+  .filter-btn-container {
+    background-color: gray;
+    height: 95px;
+    padding: 5px;
+  }
+  .importance-btn {
+    width: 12%;
+  }
 }
 
 @media (max-width: 500px) {
+
+
+  .top-container {
+    height: 58vh;
+  }
 
   .user-inputs {
   color: #6D6E71;
@@ -335,5 +353,16 @@ p {
 
   p {
     font-size: 25px;
+  }
+
+  .filter-btn-container {
+    background-color: gray;
+    height: 100px;
+    padding: 7px;
+  }
+
+  .importance-btn {
+    font-size: 10px;
+    width: 24%;
   }
 }

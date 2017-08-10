@@ -25,9 +25,12 @@ function NewToDo(title, body, importance) {
   this.importance = 'normal';
 };
 
-// ----------PREPEND CARD/TO-DO------------
-function prependCard(idea) {
-  $('.todo-card-section').prepend(
+function prependSomething(target, content) {
+  target.prepend(content);
+}
+
+function createCard(idea) {
+  return (
     `<div class="to-do-card" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
@@ -42,6 +45,13 @@ function prependCard(idea) {
       </div>
     </div>`
   )
+}
+
+// ----------PREPEND CARD/TO-DO------------
+function prependCard(idea) {
+  var target = $('.todo-card-section')
+  var content = createCard(idea)
+  prependSomething(target, content)
 };
 
 function prependAll() {
@@ -58,7 +68,7 @@ function sendIdeasToStorage() {
 // ---------- GET ------------
 function getToDoFromStorage() {
   ideaArray = JSON.parse(localStorage.getItem("ideaArray")) || [];
-    return ideaArray;
+  return ideaArray;
 };
 
 // -------- IMPORTANCE INDICATOR ---------
@@ -98,7 +108,6 @@ function addClassOfCompletedTask() {
   // if card hasClass() of '.completed-task', remove it.
   // if card does not have '.completed-task', give it one.
   currentCard.toggleClass("completed-task");
-
 }
 
  //(.id is javascript method, refactor .... using .attr('id')
@@ -134,6 +143,7 @@ function enterKeyBlur(e) {
 }
 // -------- EDIT TITLE ------------
 function editTitle() {
+  debugger;
   var id = $(this).closest('.to-do-card')[0].id;
   var title = $(this).text(); {
   enterKeyBlur(event);
@@ -170,6 +180,12 @@ function disableSave() {
   evalInputsAlertIfEmpty();
   $('#save-btn').attr('disabled', 'disabled');
 };
+
+// function handleSaveButton() {
+//   evalInputsAlertIfEmpty();
+//   var isTrueOrFalse = $('#todo-title').val() !== '') || ($('#todo-task').val() !== '')
+//   $('#save-btn').attr('disabled', isTrueOrFalse);
+// }
 
 // ---------- EVALUATE INPUTS ------------
 function evalInputsAlertIfEmpty() {

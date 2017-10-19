@@ -188,6 +188,7 @@ function filterOutClassy() {
   })
 }
 
+
 // function showAllToDos() {
 //   $('todo-card-section').empty();
 //   var fullArray = toDoArray;
@@ -196,7 +197,7 @@ function filterOutClassy() {
 // }
 
 
-function prependAll(toDoArray) {
+function prependAll(ideaArray) {
   var lengthOfTenArray = filterOutClassy();
   lengthOfTenArray.slice(-10).forEach(function(el){
     appendLastTenCards(el);
@@ -271,7 +272,8 @@ function filterInOrOut(returnedFilterArray) {
 
 function clearAndReplaceWithAll() {
   $('.todo-card-section').empty();
-  prependAll();
+  appendLastTenCards();
+
 }
 
 

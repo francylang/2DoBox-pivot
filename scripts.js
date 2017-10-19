@@ -17,6 +17,7 @@ $(document).on('click', '.delete-btn', deleteCard);
 $(document).on('keyup', enterKeyBlur);
 $('.bottom-container').on('click', '#none, #low, #normal, #high, #critical', filter);
 $('#clear-filters').on('click', clearAndReplaceWithAll);
+$('#show-completed-todo').on('click', showAllToDos);
 
 
 // ------------FUNCTIONS------------
@@ -51,7 +52,7 @@ function prepareTheCardInfo(card) {
 }
 
 
-function injection(ToDo) {
+function injectableCode(ToDo) {
   return `<div class="${ToDo.classy} to-do-card" id="${ToDo.id}">
             <div class="card-title-flex">
               <h2 contenteditable=true>${ToDo.title}</h2>
@@ -72,13 +73,13 @@ function injection(ToDo) {
 
 
 function prependCard(ToDo) {
-  var injected = injection(ToDo);
+  var injected = injectableCode(ToDo);
   $(".todo-card-section").prepend(injected);
 }
 
 
 function appendLastTenCards(ToDo) {
-  var injected = injection(ToDo);
+  var injected = injectableCode(ToDo);
   $(".todo-card-section").prepend(injected);
 }
 
@@ -186,6 +187,13 @@ function filterOutClassy() {
     }
   })
 }
+
+// function showAllToDos() {
+//   $('todo-card-section').empty();
+//   var fullArray = toDoArray;
+//   prependAll();
+//   })
+// }
 
 
 function prependAll(toDoArray) {
